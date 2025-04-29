@@ -1,0 +1,30 @@
+{
+  "cli": {
+    "version": ">= 15.0.4",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "JAVA_VERSION": "17"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "JAVA_VERSION": "17"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "env": {
+        "JAVA_VERSION": "17"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

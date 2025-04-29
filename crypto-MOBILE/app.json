@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "cryptommonaie",
+    "slug": "crypto-finale",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
+      "package": "com.arijesa.crypto"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+  "eas": {
+    "projectId": "d4bc23cf-9362-4ed9-89b6-3ccd9ff9bbe7"
+  }
+},
+"owner": "ando08"
+  }
+}
