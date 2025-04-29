@@ -1,0 +1,1 @@
+pg_dump -U postgres -h localhost -d crypto -f 05-data.sql

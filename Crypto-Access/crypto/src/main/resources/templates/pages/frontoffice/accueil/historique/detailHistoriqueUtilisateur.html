@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="fragments/frontoffice/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+
+</head>
+
+<body>
+
+    <main id="main" class="main" layout:fragment="content">
+
+        <div class="pagetitle">
+            <h1>Section historique</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/crypto/accueil}">Accueil</a></li>
+                    <li class="breadcrumb-item"><a href="#">Historique</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/crypto/historique/transactions}">Opérations utilisateurs</a></li>
+                    <li class="breadcrumb-item active">Détails</li>
+                </ol>
+            </nav>
+        </div>
+    
+        <section class="section">
+            <div class="row">
+                <!-- Informations utilisateur -->
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <!-- Image utilisateur -->
+                                <div class="col-md-4 text-center">
+                                    <img th:src="@{${utilisateur.lienImage}}" class="rounded-circle img-fluid" width="200" height="200" alt="Utilisateur">
+                                </div>
+                                <!-- Détails utilisateur -->
+                                <div class="col-md-8">
+                                    <h4 class="card-title">Détails de l'utilisateur</h4>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item" th:text="'Identifiant : '+${utilisateur.id}"><strong>Identifiant :</strong> </li>
+                                        <li class="list-group-item" th:text="'Nom : ' + ${utilisateur.nom}"><strong>Nom :</strong> </li>
+                                        <li class="list-group-item" th:text="'Prenom : ' + ${utilisateur.prenom}"><strong>Prénom :</strong> </li>
+                                        <li class="list-group-item" th:text="'Mail : ' + ${utilisateur.mail}"><strong>Mail :</strong> </li>
+                                        <li class="list-group-item" th:text="'Date de naissance : ' + ${utilisateur.dateNaissance}"><strong>Date de naissance :</strong> </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Liste des ventes -->
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Liste des ventes</h5>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Cryptomonnaie</th>
+                                        <th scope="col">Quantité</th>
+                                        <th scope="col">Prix Unitaire</th>
+                                        <th scope="col">Commission</th>
+                                        <th scope="col">Date Transaction</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="vt : ${transaction.vente}">
+                                        <td th:text="${vt.cryptomonnaie.nom}"></td>
+                                        <td th:text="${vt.quantite}"></td>
+                                        <td th:text="${vt.d_prixUnitaire} + ' $'"></td>
+                                        <td th:text="${vt.d_commission} + ' $'"></td>
+                                        <td th:text="${#temporals.format(vt.dateTransaction, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-center mb-2">
+                                <button class="toggle-btn btn btn-light rounded-pill px-4 py-2">Voir plus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+    
+                <!-- Liste des achats -->
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Liste des achats</h5>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Cryptomonnaie</th>
+                                        <th scope="col">Quantité</th>
+                                        <th scope="col">Prix Unitaire</th>
+                                        <th scope="col">Commission</th>
+                                        <th scope="col">Date Transaction</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="act : ${transaction.achat}">
+                                        <td th:text="${act.cryptomonnaie.nom}"></td>
+                                        <td th:text="${act.quantite}"></td>
+                                        <td th:text="${act.d_prixUnitaire} + ' $'"></td>
+                                        <td th:text="${act.d_commission} + ' $'"></td>
+                                        <td th:text="${#temporals.format(act.dateTransaction, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-center mb-2">
+                                <button class="toggle-btn btn btn-light rounded-pill px-4 py-2">Voir plus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+    
+            </div>
+                    
+        </section>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelectorAll(".card-body").forEach(cardBody => {
+                    cardBody.querySelectorAll("table").forEach(table => { 
+                        let rows = table.querySelectorAll("tbody tr");
+                        let toggleButton = table.nextElementSibling?.querySelector(".toggle-btn");    
+                        if (rows.length > 5) {
+                            rows.forEach((row, index) => {
+                                if (index >= 5) row.style.display = "none"; 
+                            });
+                
+                            toggleButton.addEventListener("click", function () {
+                                let isExpanded = this.textContent === "Voir moins";
+                                rows.forEach((row, index) => {
+                                    if (index >= 5) row.style.display = isExpanded ? "none" : ""; 
+                                });
+                                this.textContent = isExpanded ? "Voir plus" : "Voir moins";
+                            });
+                        } else if (toggleButton) {
+                            toggleButton.style.display = "none"; 
+                        }
+                    });
+                });
+            });
+            
+                  </script>
+                
+        
+    </main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

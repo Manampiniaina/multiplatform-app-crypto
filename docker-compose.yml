@@ -1,0 +1,55 @@
+services:
+  access_app:
+    build:
+      context: ./Access-API
+      dockerfile: Dockerfile
+    container_name: access_app
+    working_dir: /var/www/access
+    restart: always
+    command: php -S 0.0.0.0:8000 -t public
+    volumes:
+      - ./Access-API/access/code:/var/www/access:delegated # Évite les pertes de fichiers sur les systèmes macOS
+      - /var/www/access/vendor # Garde les dépendances entre les redémarrages
+      - /var/www/access/var # Garde le cache Symfony
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: 0
+      PHP_ENABLE_PGSQL: 1
+    depends_on:
+      - db
+
+  crypto_app:
+    build:
+      context: ./Crypto-Access
+      dockerfile: Dockerfile
+    container_name: crypto_app
+    volumes:
+      - ./Crypto-Access/crypto:/crypto 
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "1025:1025"  # Port SMTP pour MailHog
+      - "8025:8025"  # Interface Web MailHog pour visualiser les emails
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: base
+    ports:
+      - "5432:5432"  
+    volumes:
+      - ./docker/data:/var/lib/postgresql/data
+      - ./docker/scripts:/docker-entrypoint-initdb.d/
+
+volumes:
+  db_data:

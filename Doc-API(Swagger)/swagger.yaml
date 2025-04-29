@@ -1,0 +1,189 @@
+openapi: 3.0.0
+info:
+  title: Access-api
+  description: Une API simple pour gérer les utilisateurs et comptes.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000
+    description: Serveur local de développement
+
+paths:
+  /api/utilisateur/create/:
+    post:
+      summary: Création d'un utilisateur
+      description: Permet de créer un utilisateur en envoyant des données dans le corps de la requête.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mail:
+                  type: string
+                  description: L'adresse e-mail de l'utilisateur.
+                  example: example132@gmail.com
+                mdp:
+                  type: string
+                  description: Le mot de passe de l'utilisateur.
+                  example: password123
+                nom:
+                  type: string
+                  description: Le nom de l'utilisateur.
+                  example: John
+                prenom:
+                  type: string
+                  description: Le prénom de l'utilisateur.
+                  example: Doe
+                datenaissance:
+                  type: string
+                  format: date
+                  description: La date de naissance de l'utilisateur (format YYYY-MM-DD).
+                  example: 2001-12-10
+                idgenre:
+                  type: string
+                  description: Identifiant du genre (GR01 = Homme, GR02 = Femme).
+                  example: GR01
+  /api/auth/login:
+    post:
+      summary: Connexion utilisateur
+      description: Permet de se connecter à son compte en fournissant un e-mail et un mot de passe.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mail:
+                  type: string
+                  description: L'adresse e-mail de l'utilisateur.
+                  example: example138@gmail.com
+                motdepasse:
+                  type: string
+                  description: Le mot de passe de l'utilisateur.
+                  example: Password123**
+      responses:
+        '200':
+          description: Connexion réussie.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Statut de l'opération.
+                    example: "Login réussi"
+                  code:
+                    type: integer
+                    description: Code HTTP de la réponse.
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: Message de confirmation.
+                        example: "Connexion réussie"
+                      token:
+                        type: string
+                        description: Jeton d'authentification de l'utilisateur.
+                        example: "eyJhbGciOiJIUzI1NiIsInR5..."
+        '500':
+          description: erreur de la verification.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: erreur lors du log in .
+                    example: "error"
+                  
+                  code:
+                    type: integer
+                    description: Code HTTP de la réponse.
+                    example: 500
+                  
+                  error:
+                    type: string
+                    nullable: true
+                    description: Message d'erreur éventuel.
+                    example: password incorrect
+
+  /api/auth/check-pin:
+    post:
+      summary: Vérification du PIN
+      description: Permet de vérifier le PIN envoyé à l'utilisateur.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_compte:
+                  type: string
+                  description: L'identifiant du compte.
+                  example: CMT0000000001
+                pin:
+                  type: string
+                  description: Le PIN à vérifier.
+                  example: "4562"
+      responses:
+        '200':
+          description: Vérification réussie.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Statut de l'opération.
+                    example: "success"
+                  code:
+                    type: integer
+                    description: Code HTTP de la réponse.
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: Message de confirmation.
+                        example: "PIN vérifié avec succès."
+                      token:
+                        type: string
+                        description: Jeton d'authentification.
+                        example: "eyJhbGciOiJIUzI1NiIsInR5..."
+                  error:
+                    type: string
+                    nullable: true
+                    description: Message d'erreur éventuel.
+                    example: null
+        '500':
+          description: erreur de la verification.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: error du PIN exemple expire , incorrect.
+                    example: "error"
+                  
+                  code:
+                    type: integer
+                    description: Code HTTP de la réponse.
+                    example: 500
+                  
+                  error:
+                    type: string
+                    nullable: true
+                    description: Message d'erreur éventuel.
+                    example: PIN expired.

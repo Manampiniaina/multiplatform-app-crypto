@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="fragments/frontoffice/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+
+</head>
+
+<body>
+
+    <main id="main" class="main" layout:fragment="content">
+
+        <div class="pagetitle">
+          <h1>Section historique</h1>
+          <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/crypto/accueil}">Accueil</a></li>
+                <li class="breadcrumb-item"> <a href="#"> Historique </a> </li>
+                <li class="breadcrumb-item"><a th:href="@{/crypto/historique/transactions}">Opérations utilisateurs</a></li>
+            </ol>
+          </nav>
+        </div>
+    
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+    
+                            <h5 class="card-title">Historique des opérations utilisateurs</h5>
+    
+                            <form class="row g-3" action="/crypto/historique/transactions" method="post">
+    
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                      <input name="dateHeureMin" type="datetime-local" class="form-control" id="nom" placeholder="Nom">
+                                      <label for="floatingName">Date minimale</label>
+                                    </div>
+                                </div>
+            
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                      <input name="dateHeureMax" type="datetime-local" class="form-control" id="nom" placeholder="Nom">
+                                      <label for="floatingName">Date maximale</label>
+                                    </div>
+                                </div>
+            
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3">
+                                        <select name="idCrypto" class="form-select" id="floatingSelect" aria-label="Cryptomonnaie">
+                                            <option value="">Choisissez une cryptomonnaie</option>
+                                            <option th:each="crypto : ${cryptos}" th:value="${crypto.id}" th:text="${crypto.nom}"></option>
+                                        </select>
+                                        <label for="floatingSelect">Cryptomonnaie</label>
+                                    </div>
+                                </div>  
+                                
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input name="idUtilisateur" type="text" class="form-control" id="utilisateur" placeholder="Utilisateur" list="utilisateurs-list" oninput="filterUsers()">
+                                        <label for="utilisateur">Utilisateur (auto-complete)</label>
+                                        <datalist id="utilisateurs-list"></datalist>
+                                    </div>
+                                </div>
+            
+                                <div class="text-center">
+                                  <button type="submit" class="btn btn-primary">Valider</button>
+                                </div>
+                              </form><!-- End floating Labels Form -->
+            
+    
+                              <h5 class="card-title">Liste des ventes correspondantes</h5>
+    
+                              <!-- Table with stripped rows -->
+                              <table class="table table-striped">
+                                  <thead>
+                                      <tr>
+                                          <th scope="col">Image utilisateur</th>
+                                          <th scope="col">Nom & prénom(s)</th>
+                                          <th scope="col">Cryptomonnaie</th>
+                                          <th scope="col">Quantité vendue</th>
+                                          <th scope="col">Date transaction</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr th:each="vt : ${transaction.vente}">
+                                        <td class="user-image"> 
+                                            <a th:href="@{/crypto/detailUtilisateur/transactions(idUtilisateur=${vt.vendeur.id})}">  
+                                                <img th:src="@{${vt.vendeur.lienImage}}" class="rounded-circle" alt="User 1"> 
+                                            </a> 
+                                        </td>
+                                        <td th:text="${vt.vendeur.nom} + ' ' + ${vt.vendeur.prenom}"></td>
+                                        <td th:text="${vt.cryptomonnaie.nom}"></td>
+                                        <td th:text="${vt.quantite}"></td>
+                                        <td th:text="${#temporals.format(vt.dateTransaction, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                    </tr>                                    
+                                  </tbody>
+                              </table>
+                              
+                              <h5 class="card-title">Liste des achats correspondants</h5>
+                              
+                              <!-- Table with stripped rows -->
+                              <table class="table table-striped">
+                                  <thead>
+                                      <tr>
+                                          <th scope="col">Image utilisateur</th>
+                                          <th scope="col">Nom & prénom(s)</th>
+                                          <th scope="col">Cryptomonnaie</th>
+                                          <th scope="col">Quantité achetée</th>
+                                          <th scope="col">Date transaction</th>
+                                      </tr>
+                                  </thead>
+                                  <tr th:each="act : ${transaction.achat}">
+                                    <td class="user-image"> 
+                                        <a th:href="@{/crypto/detailUtilisateur/transactions(idUtilisateur=${act.acheteur.id})}">  
+                                            <img th:src="@{${act.acheteur.lienImage}}" class="rounded-circle" alt="User 1"> 
+                                        </a> 
+                                    </td>
+                                    <td th:text="${act.acheteur.nom} + ' ' + ${act.acheteur.prenom}"></td>
+                                    <td th:text="${act.cryptomonnaie.nom}"></td>
+                                    <td th:text="${act.quantite}"></td>
+                                    <td th:text="${#temporals.format(act.dateTransaction, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                </tr>
+                                
+                              </table>                          
+                            
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Script pour charger les utilisateurs -->
+            <script th:inline="javascript">
+                // Récupération des utilisateurs côté serveur
+                let utilisateurs = /*[[${utilisateurs}]]*/ [];
+            
+                function filterUsers() {
+                    let input = document.getElementById("utilisateur");
+                    let dataList = document.getElementById("utilisateurs-list");
+                    let query = input.value.toLowerCase();
+            
+                    // Effacer les options précédentes
+                    dataList.innerHTML = "";
+            
+                    // Filtrer les utilisateurs en fonction de l'input
+                    utilisateurs
+                        .filter(user =>
+                            user.id.toLowerCase().includes(query) ||
+                            (user.nom + " " + user.prenom).toLowerCase().includes(query)
+                        )
+                        .forEach(user => {
+                            let option = document.createElement("option");
+                            option.value = user.id;  // L'ID sera la valeur sélectionnée
+                            option.textContent = `${user.nom} ${user.prenom} (${user.id})`;
+                            dataList.appendChild(option);
+                        });
+                }
+            </script>
+
+            <style>
+                .user-image {
+                    text-align: center;
+                }
+                .user-image img {
+                    width: 45pt;
+                    height: 45pt;
+                }
+            </style>
+        </section>
+    
+      </main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

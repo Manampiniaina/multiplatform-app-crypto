@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="fragments/frontoffice/_layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de connection</title>
+    <link th:href="@{/css/authentification.css}" rel="stylesheet">
+  </head>
+<body>
+  <main layout:fragment="content">
+    <div class="container">
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+              <div class="d-flex justify-content-center py-4">
+                <a th:href="@{/connection}" class="logo d-flex align-items-center w-auto">
+                  <i class="bi bi-currency-bitcoin fs-2"></i>
+                  <span class="d-none d-lg-block">CryptoAPP</span>
+                </a>
+              </div><!-- End Logo -->
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="pt-4 pb-2">
+                    <h5 class="card-title text-center pb-0 fs-4">Vérification de votre identité</h5>
+                    <p class="text-center small">Entrez le code d'authentification (envoyé dans votre boîte mail)</p>
+                  </div>
+                  <form class="needs-validation" th:action="@{/utilisateur/PIN}" method="post">
+
+                    <div class="d-flex justify-content-between mb-4">
+                      <input type="hidden" class="form-control auth-input text-center" name="id" th:value="${id}" required>
+                      <input type="hidden" class="form-control auth-input text-center" name="mail" th:value="${mail}" required>
+
+                      <input type="text" class="form-control auth-input text-center" maxlength="1" name="n1" required>
+                      <input type="text" class="form-control auth-input text-center" maxlength="1" name="n2" required>
+                      <input type="text" class="form-control auth-input text-center" maxlength="1" name="n3" required>
+                      <input type="text" class="form-control auth-input text-center" maxlength="1" name="n4" required>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <a th:href="@{/connection}" class="btn btn-link">Retour</a>
+                      <button type="submit" class="btn btn-primary">Valider</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+</body>
+
+</html>

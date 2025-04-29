@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="fragments/frontoffice/_layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de connection</title>
+</head>
+<body>
+
+  <main layout:fragment="content">
+    <div class="container">
+
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+                <div class="d-flex justify-content-center py-4">
+                    <a th:href="@{/}" class="logo d-flex align-items-center w-auto">
+                        <i class="bi bi-currency-bitcoin fs-2"></i>
+                        <span class="d-none d-lg-block">CryptoAPP</span>
+                    </a>
+                </div><!-- End Logo -->
+
+              <div class="card mb-3">
+
+                <div class="card-body">
+
+                  <div class="pt-4 pb-2">
+                    <h5 class="card-title text-center pb-0 fs-4">Inscrivez-vous ici</h5>
+                    <p class="text-center small">Entrez ci-dessous vos informations</p>
+                  </div>
+
+                  <form class="row g-3 needs-validation" th:action="@{/utilisateur/inscription}" th:object="${utilisateur}" method="post">
+                    <div class="col-12">
+                      <label for="yourName" class="form-label">Adresse mail</label>
+                      <input name="adressemail" type="email" class="form-control" id="yourMail" th:field="*{mail}" required>
+                      <div class="invalid-feedback">Entrez votre mail s'il vous plaît!</div>
+                    </div>
+                    
+                    <div class="col-12">
+                        <label for="yourPassword" class="form-label">Mot de passe</label>
+                        <input type="password" name="password" class="form-control" id="yourPassword" th:field="*{mdp}" minlength="8" required>
+                        <div class="invalid-feedback">Entrez votre mot de passe s'il vous plaît!</div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="yourFirstName" class="form-label">Nom</label>
+                        <input name="nom" type="text" class="form-control" id="yourFirstName" th:field="*{nom}" required>
+                        <div class="invalid-feedback">Entrez votre nom s'il vous plaît!</div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="yourLastName" class="form-label">Prénom</label>
+                        <input name="prenom" type="text" class="form-control" id="yourLastName" th:field="*{prenom}" required>
+                        <div class="invalid-feedback">Entrez votre prénom s'il vous plaît!</div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="yourBirthDate" class="form-label">Date de naissance</label>
+                        <input name="dtn" type="date" class="form-control" id="yourBirthDate" th:field="*{dateNaissance}" required>
+                        <div class="invalid-feedback">Entrez votre date de naissance s'il vous plaît!</div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourBirthDate" class="form-label">Genre</label>
+                      <select th:field="*{genre.id}" id="genre" name="genre" class="form-select">                
+                        <!-- Boucle sur la liste des genres pour créer les options -->
+                        <option th:each="genre : ${genres}" th:value="${genre.id}" th:text="${genre.libelle}" th:selected="${genre.id == utilisateur.genre.id}">Genre</option>
+                    </select>
+                    </div>
+
+                    <div class="col-12">
+                      <button class="btn btn-primary w-100" type="submit">S'inscrire</button>
+                    </div>
+                    <div class="col-12">
+                      <p class="small mb-0">Avez-vous déjà un compte ? <a th:href="@{/connection}">Connectez-vous ici</a></p>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main><!-- End #main -->
+
+  
+</body>
+
+</html>

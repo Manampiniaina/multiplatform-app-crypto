@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="fragments/frontoffice/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+    <!-- Remplacer le fragment content par le contenu spécifique de cette page -->
+    <main id="main" class="main" layout:fragment="content">
+
+      <div class="pagetitle">
+          <h1>Graphe</h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a th:href="@{/crypto/accueil}">Accueil</a></li>
+              <li class="breadcrumb-item"> <a th:href="@{/crypto/cours}">Cours</a></li>
+              <li class="breadcrumb-item">Nom de la cryptomonnaie</li>
+            </ol>
+          </nav>
+        </div>
+    
+        
+        <section class="section">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title" th:if="${cryptomonnaie != null}">Graphe d'évolution graphique de [[${cryptomonnaie.nom}]]</h5>        
+                  <!-- Area Chart -->
+                  <div id="areaChart"></div>
+        
+                  <script>
+                      document.addEventListener("DOMContentLoaded", () => {
+                        // let prices = [8107.85, 8128.0, 8122.9, 8165.5, 8340.7];
+                        // let timeInterval = 10; // 10 secondes d'intervalle
+                        // let currentTime = new Date();
+                        
+                        // // Arrondir l'heure actuelle aux multiples de 10 secondes
+                        // currentTime.setSeconds(Math.floor(currentTime.getSeconds() / timeInterval) * timeInterval);
+                        
+                        // let times = [];
+
+                        let prices = [[${prix}]]; // Thymeleaf insère ici une liste JSON
+                        let times = [[${temps}]];  
+                        let timesInLocalTimezone = times.map(ts => {
+                        let date = new Date(ts); // UTC par défaut
+                            return new Intl.DateTimeFormat('fr-FR', {
+                                timeZone: 'Europe/Paris',
+                                dateStyle: 'medium',
+                                timeStyle: 'medium'
+                            }).format(date);
+                        });
+                        
+                        // // Générer les 10 dernières valeurs de prix et leurs dates alignées tous les 10 secondes
+                        // for (let i = 0; i < prices.length; i++) {
+                        //   // Calculer chaque timestamp à 10 secondes d'intervalle
+                        //   times.push(new Date(currentTime.getTime() - (i * timeInterval * 1000)).getTime());
+                        // }
+          
+                        // Créer le graphique avec les données générées
+                        new ApexCharts(document.querySelector("#areaChart"), {
+                          series: [{
+                            name: "Prix de la cryptomonnaie",
+                            data: prices
+                          }],
+                          chart: {
+                            type: 'area',
+                            height: 350,
+                            zoom: {
+                              enabled: false
+                            }
+                          },
+                          dataLabels: {
+                            enabled: false
+                          },
+                          stroke: {
+                            curve: 'smooth'
+                          },
+                          subtitle: {
+                            text: 'Cours',
+                            align: 'left'
+                          },
+                          labels: times,
+                          xaxis: {
+                            type: 'datetime',
+                            labels: {
+                              format: 'dd-MM-yyyy HH:mm:ss' // Format de l'heure
+                            }
+                          },
+                          yaxis: {
+                            opposite: true
+                          },
+                          legend: {
+                            horizontalAlign: 'left'
+                          }
+                        }).render();
+                      });
+                    </script>
+                  <!-- End Area Chart -->
+        
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>  
+    </main>
+</body>
+</html>

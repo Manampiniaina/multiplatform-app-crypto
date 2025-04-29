@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/_layout">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title></title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link th:href="@{/img/favicon.png}" rel="icon">
+  <link th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="@{/css/fontsgoogleapis.css}" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+  <link th:href="@{/vendor/quill/quill.snow.css}" rel="stylesheet">
+  <link th:href="@{/vendor/quill/quill.bubble.css}" rel="stylesheet">
+  <link th:href="@{/vendor/remixicon/remixicon.css}" rel="stylesheet">
+  <link th:href="@{/vendor/simple-datatables/style.css}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+
+  <div th:if="${message}">
+    <script th:inline="javascript">
+        // Afficher une alerte avec le message passé dans le modèle
+        alert([[${message}]]);
+    </script>
+</div>
+  <!-- La partie centrale qui sera remplacée par le contenu spécifique -->
+  <main layout:fragment="content">
+      
+  </main>
+
+  <!-- Pied de page -->
+  <footer th:replace="fragments/backoffice/footer :: footer"></footer>
+  <div th:replace="fragments/backoffice/footer :: lien"></div>
+
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="fragments/frontoffice/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+
+    <main id="main" class="main" layout:fragment="content">
+
+        <div class="pagetitle">
+            <h1>Section fond</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/crypto/accueil}">Accueil</a></li>
+                    <li class="breadcrumb-item"><a href="#">Demande</a></li>
+                    <li class="breadcrumb-item active">Fond</li>
+                </ol>
+            </nav>
+        </div>
+    
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <ul class="nav nav-tabs d-flex justify-content-center" id="demandeTabs" role="tablist">
+                            <li class="nav-item flex-fill text-center" role="presentation">
+                                <button class="nav-link active w-100 border-1 rounded-top fw-bold" 
+                                        id="depot-tab" data-bs-toggle="tab" data-bs-target="#demandeForm" 
+                                        type="button" role="tab" aria-controls="demandeForm" aria-selected="true">
+                                    Dépôt
+                                </button>
+                            </li>
+                            <li class="nav-item flex-fill text-center" role="presentation">
+                                <button class="nav-link w-100 border-1 rounded-top fw-bold" 
+                                        id="retrait-tab" data-bs-toggle="tab" data-bs-target="#demandeForm" 
+                                        type="button" role="tab" aria-controls="demandeForm" aria-selected="false">
+                                    Retrait
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="card-body">
+                            <div class="tab-content mt-3">
+                                <div class="tab-pane fade show active" id="demandeForm" role="tabpanel">
+    
+                                    <h5 class="card-title text-center" id="formTitle">Demande de Dépôt</h5>
+    
+                                    <form class="row g-3" action="/crypto/demande/fond" method="post">
+                                        <input type="hidden" name="typeDemande" id="typeDemande" value="1">
+    
+                                        <div class="col-md-12">
+                                            <div class="form-floating mb-3">
+                                                <input name="montant" type="number" class="form-control" id="montantElt" placeholder="Montant" step="0.01" min="0" required>
+                                                <label for="montantElt">Montant</label>
+                                            </div>
+                                        </div>
+    
+                                        <div class="col-md-12">
+                                            <div class="form-floating mb-3">
+                                                <input name="dateDemande" type="datetime-local" class="form-control" id="dateDemandeElt" required>
+                                                <label for="dateDemandeElt">Date de la demande</label>
+                                            </div>
+                                        </div>
+    
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary">Valider</button>
+                                        </div>
+    
+                                    </form><!-- End Form -->
+                                </div>
+                            </div>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <script>
+            function changerType(type) {
+                document.getElementById("typeDemande").value = type;
+                document.getElementById("formTitle").innerText = type === '1' ? "Demande de Dépôt" : "Demande de Retrait";
+            }
+        
+            document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById("depot-tab").addEventListener("click", function() {
+                    changerType('1');
+                });
+                document.getElementById("retrait-tab").addEventListener("click", function() {
+                    changerType('-1');
+                });
+            });
+        </script>
+
+    </main>
+    
+</body>
+</html>

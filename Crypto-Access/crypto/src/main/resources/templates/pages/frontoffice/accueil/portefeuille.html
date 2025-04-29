@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="fragments/frontoffice/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+  <script>
+    function handleSolutionClick(element) {
+    console.log("atooo");
+        var id = element.getAttribute('data-id');
+        var idPorteFeuilleDetail = document.getElementById('idportefeuilledetail');
+
+        idPorteFeuilleDetail.value = id;
+    }
+  </script>
+
+</head>
+
+<body>
+<main id="main" class="main" layout:fragment="content">
+  <div class="pagetitle">
+    <h1>Section portefeuille</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{/crypto/accueil}">Accueil</a></li>
+        <li class="breadcrumb-item">Portefeuille</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Etat actuel de votre portefeuille</h5>
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">Cryptomonnaie</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Prix Unitaire</th>
+                <th scope="col">Valeur</th>
+                <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="detail : ${details}">
+                <td th:text="${detail.cryptomonnaie.nom}">Cryptomonnaie</td>
+                <td th:text="${detail.quantite}">Quantité</td>
+                <td th:text="${detail.cryptomonnaie.valeur}">Prix Unitaire</td>
+                <td th:text="${detail.quantite * detail.cryptomonnaie.valeur}">Valeur</td>
+                <td>
+                  <a th:data-id="${detail.id}" onclick="handleSolutionClick(this)"
+                     href="#" class="sell-link btn btn-primary btn-sm"
+                     data-bs-toggle="modal"
+                     data-bs-target="#sellModal">Vendre</a>
+                </td>
+
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal Vente -->
+  <div class="modal fade" id="sellModal" tabindex="-1" aria-labelledby="sellModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="sellModalLabel">Vente de <span id="cryptoName"></span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="sellForm" action="/portefeuille/vendre" method="get">
+            <input type="hidden" id="idportefeuilledetail" name="idportefeuilledetail" value="">
+            <div class="row mb-3">
+              <label for="quantity" class="col-sm-4 col-form-label">Quantité à vendre</label>
+              <div class="col-sm-8">
+                <input type="number" class="form-control" id="quantity" name="quantity" min="1" required>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" form="sellForm" class="btn btn-primary">Confirmer la vente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

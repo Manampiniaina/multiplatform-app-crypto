@@ -1,0 +1,91 @@
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center" th:fragment="header">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="#" alt="">
+        <span class="d-none d-lg-block">CryptoAPP</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+    <nav class="header-nav ms-auto">
+
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+  
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/crypto/accueil}">
+          <i class="bi bi-grid"></i>
+          <span>Accueil</span>
+        </a>
+      </li><!-- End Accueil -->
+  
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#fond-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Fond</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="fond-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a th:href="@{/crypto/demande/fond}"><i class="bi bi-circle"></i><span>Demande</span></a>
+          </li>
+        </ul>
+      </li><!-- End Fond -->
+  
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#crypto-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-gem"></i><span>Cryptomonnaie</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="crypto-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a th:href="@{/crypto/achat}"><i class="bi bi-circle"></i><span>Page d'achat</span></a>
+          </li>
+          <li>
+            <a th:href="@{/crypto/vente}"><i class="bi bi-circle"></i><span>Page de vente</span></a>
+          </li>
+        </ul>
+      </li><!-- End Cryptomonnaie -->
+  
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#analyse-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-search"></i><span>Analyse</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="analyse-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a th:href="@{/crypto/form/analyse}"><i class="bi bi-circle"></i><span>Cryptomonnaie</span></a>
+          </li>
+          <li>
+            <a th:href="@{/crypto/cours}"><i class="bi bi-circle"></i><span>Cours en temps réel</span></a>
+          </li>
+        </ul>
+      </li><!-- End Analyse -->
+  
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#historique-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-clock-history"></i><span>Historique</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="historique-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a th:href="@{/crypto/historique/transactions}"><i class="bi bi-circle"></i><span>Opérations utilisateurs</span></a>
+          </li>
+        </ul>
+      </li><!-- End Historique -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" th:href="@{/crypto/deconnection}">
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span>Déconnexion</span>
+        </a>
+      </li>
+  
+    </ul>
+  
+  </aside><!-- End Sidebar -->
+  

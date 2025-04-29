@@ -1,0 +1,69 @@
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center" th:fragment="header">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="#" alt="">
+        <span class="d-none d-lg-block">CryptoAPP</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+    <nav class="header-nav ms-auto">
+
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+  
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/crypto/admin/accueil}">
+          <i class="bi bi-grid"></i>
+          <span>Accueil</span>
+        </a>
+      </li><!-- End Accueil -->
+  
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#utilisateurs-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-person-lines-fill"></i><span>Utilisateurs</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="utilisateurs-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a th:href="@{/crypto/utilisateur/fondEnAttente}"><i class="bi bi-circle"></i><span>Dépôt/Retrait en attente</span></a>
+          </li>
+          <li>
+            <a th:href="@{/crypto/utilisateur/filtre}"><i class="bi bi-circle"></i><span>Filtre</span></a>
+          </li>
+        </ul>
+      </li><!-- End Utilisateurs -->
+  
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#commission-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-currency-exchange"></i><span>Commission</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="commission-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a th:href="@{/crypto/commission/modification}"><i class="bi bi-circle"></i><span>Modification (%)</span></a>
+          </li>
+          <li>
+            <a th:href="@{/crypto/commission/analyse}"><i class="bi bi-circle"></i><span>Analyse</span></a>
+          </li>
+        </ul>
+      </li><!-- End Commission -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" th:href="@{/crypto/admin/deconnection}">
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span>Déconnexion</span>
+        </a>
+      </li>
+  
+    </ul>
+  
+  </aside><!-- End Sidebar -->
+  

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="fragments/backoffice/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+
+    <main id="main" class="main" layout:fragment="content">
+
+        <div class="pagetitle">
+            <h1>Section commission</h1>
+            <nav>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"> <a th:href="@{/crypto/accueil}"> Accueil </a> </li>
+                <li class="breadcrumb-item"> <a href="#">Commission</a></li>
+                <li class="breadcrumb-item">Modification</li>
+              </ol>
+            </nav>
+          </div>
+    
+          <section class="section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Modification du % de commission (transactions)</h5>
+            
+                          <form class="row g-3" action="/crypto/commission/modifier" method="post">
+
+                            <div class="col-md-12">
+                                <div class="form-floating mb-3">
+                                  <select name="idCryptomonnaie" class="form-select" id="floatingSelect" aria-label="Cryptomonnaies">
+                                    <option value=""> Choisissez une cryptomonnaie</option>
+                                    <option value="tous" selected>Tous</option>
+                                    <option th:each="crypto : ${listCrypto}"
+                                            th:value="${crypto.id}"
+                                            th:text="${crypto.nom}">Nom de la crypto</option>
+                                  </select>
+                                  <label for="floatingSelect">Cryptomonnaies</label>
+                            </div>
+
+                            <div class="col-md-12">
+                              <div class="form-floating mb-3">
+                                <input name="pourcentage" type="number" class="form-control" id="pourcentageElt" placeholder="Pourcentage" step="0.01" min="0" max="100">
+                                <label for="floatingName">Pourcentage</label>
+                              </div>
+                            </div>  
+
+                            <div class="text-center">
+                              <button type="submit" class="btn btn-primary">Valider</button>
+                            </div>
+
+                          </form><!-- End floating Labels Form -->
+            
+                        </div>
+                      </div>
+                </div>
+            </div>
+          </section>
+    
+
+    </main>
+   
+</body>
+</html>

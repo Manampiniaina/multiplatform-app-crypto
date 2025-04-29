@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="fragments/backoffice/_layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de connection admin</title>
+</head>
+<body>
+
+  <main layout:fragment="content">
+    <div class="container">
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+  
+              <div class="d-flex justify-content-center py-4">
+                <a th:href="@{/}" class="logo d-flex align-items-center w-auto">
+                  <i class="bi bi-currency-bitcoin fs-2"></i>
+                  <span class="d-none d-lg-block">CryptoAPP</span>
+                </a>
+              </div><!-- End Logo -->
+  
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="pt-4 pb-2">
+                    <h5 class="card-title text-center pb-0 fs-4">Connexion admin</h5>
+                    <p class="text-center small">Entrez votre nom et mot de passe</p>
+                  </div>
+  
+                  <form class="row g-3 needs-validation" th:action="@{/admin/connection}" th:object="${admin}" method="post">
+                    
+                    <div class="col-12">
+                      <label for="adminUsername" class="form-label">Nom Administrateur</label>
+                      <input type="text" class="form-control" id="adminUsername" th:field="*{nom}" required>
+                      <div class="invalid-feedback">Veuillez entrer votre nom d'administrateur.</div>
+                    </div>
+  
+                    <div class="col-12">
+                      <label for="adminPassword" class="form-label">Mot de passe</label>
+                      <input th:field="*{mdp}" type="text" class="form-control" id="adminPassword" required>
+                      <div class="invalid-feedback">Veuillez entrer votre mot de passe.</div>
+                    </div>
+  
+                    <div class="col-12">
+                      <button class="btn btn-primary w-100" type="submit">Se connecter</button>
+                    </div>
+                    
+                  </form>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main><!-- End #main -->
+  
+</body>
+
+</html>

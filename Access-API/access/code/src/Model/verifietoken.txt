@@ -1,0 +1,30 @@
+    private function isTokenExpired(Connection $connection, string $utilisateur): bool
+    {
+        try {
+            $queryCompte = "SELECT id FROM compte WHERE utilisateur = :utilisateur";
+            $stmtCompte = $connection->prepare($queryCompte);
+            $stmtCompte->execute(['utilisateur' => $utilisateur]);
+            $resultCompte = $stmtCompte->fetch();
+            if (!$resultCompte || !isset($resultCompte['id'])) {
+                throw new \Exception("Compte introuvable pour l'utilisateur spécifié.");
+            }
+            $idCompte = $resultCompte['id'];
+            $queryToken = "SELECT date_expiration FROM token_compte WHERE idcompte = :idcompte";
+            $stmtToken = $connection->prepare($queryToken);
+            $stmtToken->execute(['idcompte' => $idCompte]);
+            $resultToken = $stmtToken->fetch();
+            if (!$resultToken || !isset($resultToken['date_expiration'])) {
+                throw new \Exception("Aucun token trouvé pour ce compte.");
+            }
+            $dateExpiration = new \DateTime($resultToken['date_expiration']);
+            $now = new \DateTime();
+            if($dateExpiration < $now){
+                return true;
+            }
+            else{
+                throw new \RuntimeException("Token expire.Veuillez vous reconnectez" );
+            }
+        } catch (\Exception $e) {
+            throw new \RuntimeException("Erreur lors de la vérification du token : " . $e->getMessage());
+        }
+    }
